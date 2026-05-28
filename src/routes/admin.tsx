@@ -63,7 +63,6 @@ function Dashboard() {
           <h1 className="text-3xl font-bold gradient-text">Admin Dashboard</h1>
           <p className="text-sm text-muted-foreground">{players.length} player{players.length === 1 ? "" : "s"} · {players.reduce((s,p)=>s+p.tiers.length,0)} tier placements</p>
         </div>
-        <Button variant="secondary" onClick={() => { seedSandbox(); toast.success("Sandbox data seeded"); }}>Seed Sandbox</Button>
       </div>
 
       <Tabs defaultValue="add">
