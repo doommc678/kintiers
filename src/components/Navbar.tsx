@@ -3,6 +3,7 @@ import logo from "@/assets/logo.jpg";
 import { useAdmin, logoutAdmin } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 import { ServerStatus } from "@/components/ServerStatus";
+import { Shield, LogOut } from "lucide-react";
 
 export function Navbar() {
   const admin = useAdmin();
@@ -32,14 +33,18 @@ export function Navbar() {
           <div className="hidden lg:block"><ServerStatus compact /></div>
           {admin ? (
             <>
-              <Link to="/admin">
-                <Button size="sm" variant="secondary">Admin</Button>
+              <Link to="/admin" aria-label="Admin Dashboard" title="Admin Dashboard">
+                <Button size="icon" variant="secondary"><Shield className="h-4 w-4" /></Button>
               </Link>
-              <Button size="sm" variant="ghost" onClick={() => { logoutAdmin(); router.navigate({ to: "/" }); }}>Logout</Button>
+              <Button size="icon" variant="ghost" aria-label="Logout" title="Logout" onClick={() => { logoutAdmin(); router.navigate({ to: "/" }); }}>
+                <LogOut className="h-4 w-4" />
+              </Button>
             </>
           ) : (
-            <Link to="/admin">
-              <Button size="sm" className="gradient-primary text-primary-foreground border-0 hover:opacity-90">Admin</Button>
+            <Link to="/admin" aria-label="Admin Login" title="Admin">
+              <Button size="icon" className="gradient-primary text-primary-foreground border-0 hover:opacity-90">
+                <Shield className="h-4 w-4" />
+              </Button>
             </Link>
           )}
         </div>

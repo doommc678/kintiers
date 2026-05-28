@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   useAdmin, loginAdmin, addPlayer, removePlayer, updatePlayer,
-  setTier, removeTier, usePlayers, seedSandbox, ADMIN_PASSWORD,
+  setTier, removeTier, usePlayers,
 } from "@/lib/store";
 import { GAMEMODES, REGIONS, REGION_FLAG, TIER_ORDER, type Region, type TierKey, type PlayerStatus, calcPoints, skinUrl } from "@/lib/tiers";
 import { TierBadge } from "@/components/TierBadge";
@@ -49,7 +49,6 @@ function LoginCard() {
           {err && <p className="text-xs text-destructive mt-1">{err}</p>}
         </div>
         <Button type="submit" className="w-full gradient-primary text-primary-foreground border-0">Sign in</Button>
-        <p className="text-[11px] text-muted-foreground text-center">Demo password: <code className="text-primary">{ADMIN_PASSWORD}</code></p>
       </form>
     </div>
   );
@@ -64,7 +63,6 @@ function Dashboard() {
           <h1 className="text-3xl font-bold gradient-text">Admin Dashboard</h1>
           <p className="text-sm text-muted-foreground">{players.length} player{players.length === 1 ? "" : "s"} · {players.reduce((s,p)=>s+p.tiers.length,0)} tier placements</p>
         </div>
-        <Button variant="secondary" onClick={() => { seedSandbox(); toast.success("Sandbox data seeded"); }}>Seed Sandbox</Button>
       </div>
 
       <Tabs defaultValue="add">
