@@ -10,6 +10,7 @@ import {
 import appCss from "../styles.css?url";
 import { Navbar } from "@/components/Navbar";
 import { Particles } from "@/components/Particles";
+import { usePlayersInit } from "@/lib/store";
 
 function NotFoundComponent() {
   return (
@@ -76,6 +77,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  usePlayersInit();
   return (
     <QueryClientProvider client={queryClient}>
       <Particles />

@@ -1,122 +1,114 @@
-import { useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import type { Player, PlayerTier, TierKey, TrialLog, Region, PlayerStatus } from "./tiers";
+import { supabase } from "@/integrations/supabase/client";
+import { adminMutate, listPlayers } from "./players.functions";
 
-const KEY = "kintiers_v1";
 const ADMIN_KEY = "kintiers_admin_v1";
+const ADMIN_PW_KEY = "kintiers_admin_pw_v1";
 export const ADMIN_PASSWORD = "1029384756#";
 
-type State = {
-  players: Player[];
-};
+type State = { players: Player[]; loaded: boolean };
 
-let state: State = load();
+let state: State = { players: [], loaded: false };
 const listeners = new Set<() => void>();
 
-function load(): State {
-  if (typeof window === "undefined") return { players: [] };
-  try {
-    const raw = localStorage.getItem(KEY);
-    if (raw) return JSON.parse(raw);
-  } catch {}
-  return { players: [] };
-}
-
-function persist() {
-  if (typeof window === "undefined") return;
-  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
+function setState(next: Partial<State>) {
+  state = { ...state, ...next };
   listeners.forEach(l => l());
 }
 
 function subscribe(l: () => void) {
   listeners.add(l);
-  return () => listeners.delete(l);
+  return () => { listeners.delete(l); };
+}
+
+function rowToPlayer(r: any): Player {
+  return {
+    uuid: r.uuid,
+    ign: r.ign,
+    region: r.region,
+    status: r.status,
+    tiers: r.tiers ?? [],
+    trials: r.trials ?? [],
+    createdAt: r.created_at,
+  };
+}
+
+let initStarted = false;
+async function init() {
+  if (initStarted) return;
+  initStarted = true;
+  try {
+    const players = await listPlayers();
+    setState({ players, loaded: true });
+  } catch (e) {
+    console.error("Failed to load players", e);
+    setState({ loaded: true });
+  }
+  supabase
+    .channel("players-changes")
+    .on("postgres_changes", { event: "*", schema: "public", table: "players" }, (payload) => {
+      const evt = payload.eventType;
+      if (evt === "INSERT") {
+        const p = rowToPlayer(payload.new);
+        if (!state.players.find(x => x.uuid === p.uuid)) {
+          setState({ players: [p, ...state.players] });
+        }
+      } else if (evt === "UPDATE") {
+        const p = rowToPlayer(payload.new);
+        setState({ players: state.players.map(x => x.uuid === p.uuid ? p : x) });
+      } else if (evt === "DELETE") {
+        const oldUuid = (payload.old as any)?.uuid;
+        setState({ players: state.players.filter(x => x.uuid !== oldUuid) });
+      }
+    })
+    .subscribe();
+}
+
+export function usePlayersInit() {
+  useEffect(() => { init(); }, []);
 }
 
 export function usePlayers(): Player[] {
   return useSyncExternalStore(subscribe, () => state.players, () => state.players);
+}
+export function usePlayersLoaded(): boolean {
+  return useSyncExternalStore(subscribe, () => state.loaded, () => false);
 }
 
 export function getPlayer(uuid: string): Player | undefined {
   return state.players.find(p => p.uuid === uuid);
 }
 
-function uid() {
-  return Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+function pw(): string {
+  if (typeof window === "undefined") return "";
+  return sessionStorage.getItem(ADMIN_PW_KEY) ?? "";
 }
 
-export function addPlayer(input: { ign: string; region: Region; status?: PlayerStatus }): Player {
-  const player: Player = {
-    uuid: uid(),
-    ign: input.ign.trim(),
-    region: input.region,
-    status: input.status ?? "active",
-    tiers: [],
-    trials: [],
-    createdAt: new Date().toISOString(),
-  };
-  state = { ...state, players: [player, ...state.players] };
-  persist();
-  return player;
+export async function addPlayer(input: { ign: string; region: Region; status?: PlayerStatus }) {
+  await adminMutate({ data: { password: pw(), action: { type: "add", ...input } } });
 }
 
-export function removePlayer(uuid: string) {
-  state = { ...state, players: state.players.filter(p => p.uuid !== uuid) };
-  persist();
+export async function removePlayer(uuid: string) {
+  await adminMutate({ data: { password: pw(), action: { type: "remove", uuid } } });
 }
 
+export async function updatePlayerStatus(uuid: string, status: PlayerStatus) {
+  await adminMutate({ data: { password: pw(), action: { type: "updateStatus", uuid, status } } });
+}
+
+export async function setTier(uuid: string, gamemodeId: string, tier: TierKey, opts?: { tester?: string; evidenceUrl?: string; notes?: string }) {
+  await adminMutate({ data: { password: pw(), action: { type: "setTier", uuid, gamemodeId, tier, ...opts } } });
+}
+
+export async function removeTier(uuid: string, gamemodeId: string) {
+  await adminMutate({ data: { password: pw(), action: { type: "removeTier", uuid, gamemodeId } } });
+}
+
+// Re-export legacy helpers so admin UI doesn't break
 export function updatePlayer(uuid: string, patch: Partial<Player>) {
-  state = {
-    ...state,
-    players: state.players.map(p => p.uuid === uuid ? { ...p, ...patch } : p),
-  };
-  persist();
-}
-
-export function setTier(uuid: string, gamemodeId: string, tier: TierKey, opts?: { tester?: string; evidenceUrl?: string; notes?: string }) {
-  const p = getPlayer(uuid);
-  if (!p) return;
-  const existing = p.tiers.find(t => t.gamemodeId === gamemodeId);
-  const fromTier = existing?.tier ?? null;
-  const newTiers: PlayerTier[] = existing
-    ? p.tiers.map(t => t.gamemodeId === gamemodeId ? { ...t, tier, retired: false } : t)
-    : [...p.tiers, { gamemodeId, tier }];
-  const trial: TrialLog = {
-    id: uid(),
-    gamemodeId,
-    fromTier,
-    toTier: tier,
-    tester: opts?.tester || "Admin",
-    evidenceUrl: opts?.evidenceUrl,
-    notes: opts?.notes,
-    date: new Date().toISOString(),
-  };
-  updatePlayer(uuid, { tiers: newTiers, trials: [trial, ...p.trials] });
-}
-
-export function removeTier(uuid: string, gamemodeId: string) {
-  const p = getPlayer(uuid);
-  if (!p) return;
-  updatePlayer(uuid, { tiers: p.tiers.filter(t => t.gamemodeId !== gamemodeId) });
-}
-
-export function seedSandbox() {
-  if (state.players.length > 0) return;
-  const samples: Array<[string, Region, Array<[string, TierKey]>]> = [
-    ["EnderKnight", "EU", [["sword","HT1"],["crystal","LT1"],["uhc","HT2"]]],
-    ["AxeLord", "NA", [["axe","HT1"],["sword","LT2"],["smp","HT3"]]],
-    ["PotMaster", "AS", [["pot","HT1"],["nethpot","LT1"],["diapot","HT2"]]],
-    ["DiamondDuke", "EU", [["crystal","HT1"],["diapot","LT1"]]],
-    ["MaceKing", "NA", [["mace","HT1"],["cart","HT2"]]],
-    ["UHCWizard", "OCE", [["uhc","HT1"],["sword","HT3"]]],
-    ["NethGod", "EU", [["nethpot","HT1"],["pot","LT2"]]],
-    ["SmpBoss", "SA", [["smp","HT1"],["sword","LT3"]]],
-  ];
-  for (const [ign, region, tiers] of samples) {
-    const p = addPlayer({ ign, region });
-    for (const [gm, tier] of tiers) {
-      setTier(p.uuid, gm, tier, { tester: "Seed" });
-    }
-  }
+  if (patch.status) return updatePlayerStatus(uuid, patch.status);
+  return Promise.resolve();
 }
 
 // --- admin session ---
@@ -127,6 +119,7 @@ export function isAdmin(): boolean {
 export function loginAdmin(password: string): boolean {
   if (password === ADMIN_PASSWORD) {
     sessionStorage.setItem(ADMIN_KEY, "1");
+    sessionStorage.setItem(ADMIN_PW_KEY, password);
     listeners.forEach(l => l());
     return true;
   }
@@ -134,6 +127,7 @@ export function loginAdmin(password: string): boolean {
 }
 export function logoutAdmin() {
   sessionStorage.removeItem(ADMIN_KEY);
+  sessionStorage.removeItem(ADMIN_PW_KEY);
   listeners.forEach(l => l());
 }
 export function useAdmin(): boolean {

@@ -86,16 +86,20 @@ function AddPlayerForm() {
   return (
     <form
       className="glass rounded-2xl p-6 max-w-lg space-y-4"
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
         if (!ign.trim()) return;
         if (!/^[a-zA-Z0-9_]{2,20}$/.test(ign.trim())) {
           toast.error("Invalid IGN format");
           return;
         }
-        const p = addPlayer({ ign: ign.trim(), region });
-        toast.success(`Added ${p.ign}`);
-        setIgn("");
+        try {
+          await addPlayer({ ign: ign.trim(), region });
+          toast.success(`Added ${ign.trim()}`);
+          setIgn("");
+        } catch (err: any) {
+          toast.error(err?.message ?? "Failed to add player");
+        }
       }}
     >
       <h2 className="text-lg font-semibold">Add new player</h2>

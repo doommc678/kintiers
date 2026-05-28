@@ -3,6 +3,7 @@ import logo from "@/assets/logo.jpg";
 import { useAdmin, logoutAdmin } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 import { ServerStatus } from "@/components/ServerStatus";
+import { DiscordButton } from "@/components/DiscordButton";
 import { Shield, LogOut } from "lucide-react";
 
 export function Navbar() {
@@ -31,6 +32,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <div className="hidden lg:block"><ServerStatus compact /></div>
+          <DiscordButton compact />
           {admin ? (
             <>
               <Link to="/admin" aria-label="Admin Dashboard" title="Admin Dashboard">
