@@ -49,7 +49,6 @@ function LoginCard() {
           {err && <p className="text-xs text-destructive mt-1">{err}</p>}
         </div>
         <Button type="submit" className="w-full gradient-primary text-primary-foreground border-0">Sign in</Button>
-        <p className="text-[11px] text-muted-foreground text-center">Demo password: <code className="text-primary">{ADMIN_PASSWORD}</code></p>
       </form>
     </div>
   );
