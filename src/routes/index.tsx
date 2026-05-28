@@ -12,13 +12,6 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Competitive Minecraft PvP tier rankings across every gamemode — Sword, Crystal, UHC, Pot, SMP, Mace and more. Play on play.shulkermc.fun." },
     ],
   }),
-
-  head: () => ({
-    meta: [
-      { title: "KinTiers — Minecraft PvP Tier List" },
-      { name: "description", content: "Competitive Minecraft PvP tier rankings across every gamemode — Sword, Crystal, UHC, Pot, SMP, Mace and more." },
-    ],
-  }),
   component: Landing,
 });
 
