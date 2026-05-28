@@ -3,6 +3,7 @@ import logo from "@/assets/logo.jpg";
 import { useAdmin, logoutAdmin } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 import { ServerStatus } from "@/components/ServerStatus";
+import { Shield, LogOut } from "lucide-react";
 
 export function Navbar() {
   const admin = useAdmin();
