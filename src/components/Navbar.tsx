@@ -2,6 +2,7 @@ import { Link, useRouter } from "@tanstack/react-router";
 import logo from "@/assets/logo.jpg";
 import { useAdmin, logoutAdmin } from "@/lib/store";
 import { Button } from "@/components/ui/button";
+import { ServerStatus } from "@/components/ServerStatus";
 
 export function Navbar() {
   const admin = useAdmin();
