@@ -3,8 +3,16 @@ import logo from "@/assets/logo.jpg";
 import { GAMEMODES, calcPoints } from "@/lib/tiers";
 import { usePlayers } from "@/lib/store";
 import { Button } from "@/components/ui/button";
+import { ServerStatus } from "@/components/ServerStatus";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "KinTiers — Minecraft PvP Tier List" },
+      { name: "description", content: "Competitive Minecraft PvP tier rankings across every gamemode — Sword, Crystal, UHC, Pot, SMP, Mace and more. Play on play.shulkermc.fun." },
+    ],
+  }),
+
   head: () => ({
     meta: [
       { title: "KinTiers — Minecraft PvP Tier List" },
