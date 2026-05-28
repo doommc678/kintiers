@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   useAdmin, loginAdmin, addPlayer, removePlayer, updatePlayer,
-  setTier, removeTier, usePlayers, seedSandbox, ADMIN_PASSWORD,
+  setTier, removeTier, usePlayers,
 } from "@/lib/store";
 import { GAMEMODES, REGIONS, REGION_FLAG, TIER_ORDER, type Region, type TierKey, type PlayerStatus, calcPoints, skinUrl } from "@/lib/tiers";
 import { TierBadge } from "@/components/TierBadge";
