@@ -26,7 +26,7 @@ export const REGIONS = ["NA", "EU", "AS", "SA", "OCE", "AF"] as const;
 export type Region = typeof REGIONS[number];
 
 export const REGION_FLAG: Record<Region, string> = {
-  NA: "🇺🇸", EU: "🇪🇺", AS: "🇯🇵", SA: "🇧🇷", OCE: "🇦🇺", AF: "🇿🇦",
+  NA: "🇺🇸", EU: "🇪🇺", AS: "🇮🇳", SA: "🇧🇷", OCE: "🇦🇺", AF: "🇿🇦",
 };
 
 export type Gamemode = {
