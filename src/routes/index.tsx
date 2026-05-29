@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import logo from "@/assets/logo.jpg";
 import { GAMEMODES, calcPoints } from "@/lib/tiers";
+import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { usePlayers } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 import { ServerStatus } from "@/components/ServerStatus";
@@ -86,7 +87,9 @@ function Landing() {
                 className="glass glass-hover rounded-xl p-5 flex flex-col items-center text-center animate-slide-up"
                 style={{ animationDelay: `${i * 40}ms` }}
               >
-                <div className="text-4xl mb-2">{gm.icon}</div>
+                <div className="mb-2 h-10 w-10 grid place-items-center">
+                  <GamemodeIcon gm={gm} size={40} />
+                </div>
                 <div className="font-semibold">{gm.name}</div>
                 <div className="text-[11px] text-muted-foreground mt-1">{count} ranked</div>
               </Link>

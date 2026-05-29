@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { calcPoints, GAMEMODES, REGION_FLAG, skinUrl, type Player } from "@/lib/tiers";
+import { GamemodeIcon } from "./GamemodeIcon";
 import { TierBadge } from "./TierBadge";
 import { Crown, Medal, Award } from "lucide-react";
 
@@ -101,7 +102,7 @@ export function PlayerCard({ player, rank }: { player: Player; rank?: number }) 
             const gm = GAMEMODES.find(g => g.id === t.gamemodeId);
             return (
               <span key={t.gamemodeId} className="flex items-center gap-1">
-                <span className="text-xs">{gm?.icon}</span>
+                {gm && <GamemodeIcon gm={gm} size={14} />}
                 <TierBadge tier={t.tier} size="sm" retired={t.retired} />
               </span>
             );

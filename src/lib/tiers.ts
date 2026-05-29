@@ -1,3 +1,14 @@
+import swordImg from "@/assets/gamemodes/sword.webp";
+import axeImg from "@/assets/gamemodes/axe.jpeg";
+import uhcImg from "@/assets/gamemodes/uhc.webp";
+import crystalImg from "@/assets/gamemodes/crystal.gif";
+import smpImg from "@/assets/gamemodes/smp.png";
+import nethpotImg from "@/assets/gamemodes/nethpot.png";
+import diapotImg from "@/assets/gamemodes/diapot.jpeg";
+import cartImg from "@/assets/gamemodes/cart.png";
+import maceImg from "@/assets/gamemodes/mace.jpg";
+import spearImg from "@/assets/gamemodes/spear.png";
+
 export type TierKey =
   | "HT1" | "LT1" | "HT2" | "LT2" | "HT3"
   | "LT3" | "HT4" | "LT4" | "HT5" | "LT5";
@@ -32,21 +43,22 @@ export const REGION_FLAG: Record<Region, string> = {
 export type Gamemode = {
   id: string;
   name: string;
-  icon: string;
+  icon: string;       // emoji fallback / overall
+  iconImg?: string;   // image asset for the gamemode
 };
 
 export const GAMEMODES: Gamemode[] = [
   { id: "overall", name: "Overall", icon: "🏆" },
-  { id: "sword", name: "Sword", icon: "⚔️" },
-  { id: "axe", name: "Axe", icon: "🪓" },
-  { id: "uhc", name: "UHC", icon: "🍎" },
-  { id: "crystal", name: "Crystal", icon: "💎" },
-  { id: "pot", name: "Pot", icon: "🧪" },
-  { id: "smp", name: "SMP", icon: "🏹" },
-  { id: "nethpot", name: "Neth Pot", icon: "🔥" },
-  { id: "diapot", name: "Dia Pot", icon: "💠" },
-  { id: "cart", name: "Cart", icon: "🛒" },
-  { id: "mace", name: "Mace", icon: "🔨" },
+  { id: "sword", name: "Sword", icon: "⚔️", iconImg: swordImg },
+  { id: "axe", name: "Axe", icon: "🪓", iconImg: axeImg },
+  { id: "uhc", name: "UHC", icon: "🍎", iconImg: uhcImg },
+  { id: "crystal", name: "Crystal", icon: "💎", iconImg: crystalImg },
+  { id: "spear", name: "Spear", icon: "🔱", iconImg: spearImg },
+  { id: "smp", name: "SMP", icon: "🏹", iconImg: smpImg },
+  { id: "nethpot", name: "Neth Pot", icon: "🔥", iconImg: nethpotImg },
+  { id: "diapot", name: "Dia Pot", icon: "💠", iconImg: diapotImg },
+  { id: "cart", name: "Cart", icon: "🛒", iconImg: cartImg },
+  { id: "mace", name: "Mace", icon: "🔨", iconImg: maceImg },
 ];
 
 export type PlayerStatus = "active" | "retired" | "banned";
@@ -85,7 +97,6 @@ export function calcPoints(p: Player): number {
 }
 
 export function skinUrl(ign: string, size = 160) {
-  // Crafatar-like avatar via mc-heads (no key required)
   return `https://mc-heads.net/avatar/${encodeURIComponent(ign)}/${size}`;
 }
 

@@ -9,6 +9,7 @@ import {
   setTier, removeTier, usePlayers,
 } from "@/lib/store";
 import { GAMEMODES, REGIONS, REGION_FLAG, TIER_ORDER, type Region, type TierKey, type PlayerStatus, calcPoints, skinUrl } from "@/lib/tiers";
+import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { TierBadge } from "@/components/TierBadge";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
@@ -206,7 +207,7 @@ function ManagePlayers() {
                   const gm = GAMEMODES.find(g => g.id === t.gamemodeId);
                   return (
                     <span key={t.gamemodeId} className="flex items-center gap-1">
-                      <span className="text-xs">{gm?.icon}</span>
+                      {gm && <GamemodeIcon gm={gm} size={14} />}
                       <TierBadge tier={t.tier} size="sm" retired={t.retired} />
                     </span>
                   );
@@ -236,7 +237,7 @@ function ManagePlayers() {
                   const cur = p.tiers.find(t => t.gamemodeId === gm.id);
                   return (
                     <div key={gm.id} className="flex items-center gap-2 bg-background/40 rounded-lg p-2">
-                      <span className="text-base w-6">{gm.icon}</span>
+                      <span className="w-6 grid place-items-center"><GamemodeIcon gm={gm} size={20} /></span>
                       <span className="text-sm flex-1">{gm.name}</span>
                       <select
                         value={cur?.tier ?? ""}
