@@ -96,7 +96,7 @@ function TiersPage() {
           <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
             <div>
               <h1 className="text-3xl font-bold flex items-center gap-3">
-                <span className="text-4xl">{activeGm.icon}</span>
+                <GamemodeIcon gm={activeGm} size={40} />
                 <span>{activeGm.name} Tier List</span>
               </h1>
               <p className="text-sm text-muted-foreground mt-1">{filtered.length} ranked player{filtered.length === 1 ? "" : "s"}</p>
