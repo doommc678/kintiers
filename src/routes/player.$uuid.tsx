@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { GAMEMODES, REGION_FLAG, bodyUrl, calcPoints } from "@/lib/tiers";
+import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { usePlayers } from "@/lib/store";
 import { TierBadge } from "@/components/TierBadge";
 import { Button } from "@/components/ui/button";
@@ -74,7 +75,7 @@ function PlayerPage() {
                 return (
                   <div key={t.gamemodeId} className="glass rounded-xl p-3 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="text-xl">{gm?.icon}</span>
+                      {gm && <GamemodeIcon gm={gm} size={22} />}
                       <span className="text-sm font-medium">{gm?.name}</span>
                     </div>
                     <TierBadge tier={t.tier} retired={t.retired} />
@@ -96,7 +97,7 @@ function PlayerPage() {
                 const gm = GAMEMODES.find(g => g.id === t.gamemodeId);
                 return (
                   <div key={t.id} className="glass rounded-xl p-3 flex flex-wrap items-center gap-3">
-                    <span className="text-xl">{gm?.icon}</span>
+                    {gm && <GamemodeIcon gm={gm} size={22} />}
                     <span className="text-sm font-medium w-20">{gm?.name}</span>
                     <div className="flex items-center gap-2">
                       {t.fromTier ? <TierBadge tier={t.fromTier} size="sm" /> : <span className="text-xs text-muted-foreground italic">new</span>}

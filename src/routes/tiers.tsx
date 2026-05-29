@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod";
 import { useMemo, useState } from "react";
 import { GAMEMODES, REGIONS, REGION_FLAG, TIER_ORDER, calcPoints, skinUrl, type TierKey } from "@/lib/tiers";
+import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { usePlayers } from "@/lib/store";
 import { TierBadge } from "@/components/TierBadge";
 import { Input } from "@/components/ui/input";
@@ -82,7 +83,7 @@ function TiersPage() {
                       : "hover:bg-secondary/60 text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  <span className="text-base">{g.icon}</span>
+                  <GamemodeIcon gm={g} size={20} />
                   <span className="font-medium">{g.name}</span>
                 </button>
               ))}
