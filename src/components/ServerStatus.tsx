@@ -74,10 +74,7 @@ export function ServerStatus({ compact = false }: { compact?: boolean }) {
         className="glass glass-hover rounded-xl px-4 py-2 flex items-center gap-3 group"
         title="Copy server IP"
       >
-        <span className={`relative flex h-2.5 w-2.5`}>
-          <span className={`absolute inset-0 rounded-full ${online ? "bg-green-400" : "bg-red-500"} animate-ping opacity-75`} />
-          <span className={`relative rounded-full h-2.5 w-2.5 ${online ? "bg-green-400" : "bg-red-500"}`} />
-        </span>
+        <span className={`h-2.5 w-2.5 rounded-full ${online ? "bg-green-400" : "bg-red-500"}`} />
         <span className="font-mono text-sm">{SERVER_IP}</span>
         {copied ? <Check className="h-4 w-4 text-green-400" /> : <Copy className="h-4 w-4 opacity-60 group-hover:opacity-100" />}
       </button>
@@ -91,17 +88,11 @@ export function ServerStatus({ compact = false }: { compact?: boolean }) {
     : "text-red-400";
 
   return (
-    <div className="relative rounded-2xl p-[1.5px] bg-[conic-gradient(from_0deg,oklch(0.62_0.24_27/0.6),transparent_30%,oklch(0.62_0.24_27/0.6)_60%,transparent_90%)] animate-spin-slow">
+    <div className="relative rounded-2xl border border-primary/25">
       <div className="glass rounded-2xl p-6 relative overflow-hidden bg-card/95">
-        {/* animated bg sheen */}
-        <div className="pointer-events-none absolute inset-0 opacity-30">
-          <div className="absolute -inset-[200%] animate-shine bg-[linear-gradient(115deg,transparent_40%,oklch(0.62_0.24_27/0.25)_50%,transparent_60%)]" />
-        </div>
-
         <div className="relative flex flex-col md:flex-row md:items-center gap-5">
-          {/* Icon / pulse */}
+          {/* Icon */}
           <div className="relative flex-shrink-0">
-            <div className={`absolute inset-0 rounded-xl blur-xl ${online ? "bg-green-500/40" : "bg-red-500/40"} animate-pulse-glow`} />
             {status?.icon ? (
               <img src={status.icon} alt="server icon" className="relative h-16 w-16 rounded-xl ring-2 ring-primary/40" />
             ) : (
@@ -116,10 +107,7 @@ export function ServerStatus({ compact = false }: { compact?: boolean }) {
             <div className="flex items-center gap-2 mb-1 flex-wrap">
               <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Official Tierlist Server</span>
               <span className={`flex items-center gap-1.5 text-[11px] font-semibold px-2 py-0.5 rounded-full border ${online ? "border-green-400/30 bg-green-400/10" : "border-red-500/30 bg-red-500/10"}`}>
-                <span className="relative flex h-2 w-2">
-                  <span className={`absolute inset-0 rounded-full ${online ? "bg-green-400" : "bg-red-500"} animate-ping opacity-75`} />
-                  <span className={`relative rounded-full h-2 w-2 ${online ? "bg-green-400" : "bg-red-500"}`} />
-                </span>
+                <span className={`h-2 w-2 rounded-full ${online ? "bg-green-400" : "bg-red-500"}`} />
                 <span className={online ? "text-green-400" : "text-red-400"}>
                   {loading ? "CHECKING…" : online ? "LIVE" : "OFFLINE"}
                 </span>
@@ -179,7 +167,7 @@ function StatTile({ icon, label, value, pulse, valueClassName = "" }: { icon: Re
       <div className="flex items-center justify-center gap-1 text-[10px] uppercase tracking-wider text-muted-foreground">
         {icon}<span>{label}</span>
       </div>
-      <div key={`${label}-${pulse}`} className={`text-sm font-bold mt-0.5 animate-fade-in ${valueClassName}`}>{value}</div>
+      <div key={`${label}-${pulse}`} className={`text-sm font-bold mt-0.5 ${valueClassName}`}>{value}</div>
     </div>
   );
 }
