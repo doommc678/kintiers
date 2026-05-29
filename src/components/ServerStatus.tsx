@@ -21,10 +21,20 @@ export function ServerStatus({ compact = false }: { compact?: boolean }) {
 
   async function fetchStatus() {
     try {
-      const t0 = performance.now();
       const r = await fetch(API_URL, { cache: "no-store" });
       const d = await r.json();
-      const ping = Math.round(performance.now() - t0);
+      // Measure real network latency with a cached follow-up request
+      // (avoids the slow first call where mcsrvstat queries the MC server)
+      let ping: number | undefined;
+      try {
+        const samples: number[] = [];
+        for (let i = 0; i < 2; i++) {
+          const t0 = performance.now();
+          await fetch(API_URL, { cache: "force-cache" });
+          samples.push(performance.now() - t0);
+        }
+        ping = Math.max(1, Math.round(Math.min(...samples)));
+      } catch {}
       setStatus({
         online: !!d.online,
         players: d.players,
