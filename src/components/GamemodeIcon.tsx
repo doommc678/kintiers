@@ -21,7 +21,7 @@ export function GamemodeIcon({
         width={size}
         height={size}
         loading="lazy"
-        style={{ width: size, height: size, mixBlendMode: "screen" }}
+        style={{ width: size, height: size }}
         className={`object-contain inline-block select-none pointer-events-none ${className}`}
       />
     );
