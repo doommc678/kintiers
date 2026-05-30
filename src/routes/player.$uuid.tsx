@@ -65,20 +65,19 @@ function PlayerPage() {
 
         {/* Tiers grid */}
         <div className="mt-8">
-          <h2 className="text-lg font-semibold mb-3">Tier Placements</h2>
+          <h2 className="text-xs font-bold tracking-widest text-muted-foreground mb-3">TIERS</h2>
           {player.tiers.length === 0 ? (
             <p className="text-sm text-muted-foreground">No tiers assigned yet.</p>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            <div className="flex flex-wrap gap-3">
               {player.tiers.map(t => {
                 const gm = GAMEMODES.find(g => g.id === t.gamemodeId);
                 return (
-                  <div key={t.gamemodeId} className="glass rounded-xl p-3 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      {gm && <GamemodeIcon gm={gm} size={22} />}
-                      <span className="text-sm font-medium">{gm?.name}</span>
+                  <div key={t.gamemodeId} className="flex flex-col items-center gap-1.5 w-16">
+                    <div className="relative h-12 w-12 rounded-full bg-secondary/70 ring-1 ring-primary/20 grid place-items-center hover:ring-primary/50 hover:scale-110 transition">
+                      {gm && <GamemodeIcon gm={gm} size={28} />}
                     </div>
-                    <TierBadge tier={t.tier} retired={t.retired} />
+                    <TierBadge tier={t.tier} size="sm" retired={t.retired} />
                   </div>
                 );
               })}
