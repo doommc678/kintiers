@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod";
 import { useMemo, useState } from "react";
-import { GAMEMODES, REGIONS, REGION_FLAG, TIER_ORDER, calcPoints, skinUrl, type TierKey, type Player } from "@/lib/tiers";
+import { GAMEMODES, REGIONS, REGION_FLAG, TIER_ORDER, TIER_COLOR_CLASS, calcPoints, skinUrl, type TierKey, type Player } from "@/lib/tiers";
 import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { useAdmin, usePlayers } from "@/lib/store";
 import { TierBadge } from "@/components/TierBadge";
@@ -152,7 +152,7 @@ function TiersPage() {
                         key={p.uuid}
                         to="/player/$uuid"
                         params={{ uuid: p.uuid }}
-                        className={`relative flex items-center gap-2 px-3 py-1.5 rounded-lg border transition group overflow-hidden ${
+                        className={`relative flex flex-col gap-1.5 px-3 py-2 rounded-lg border transition group overflow-hidden ${
                           pod
                             ? `bg-secondary/60 hover:bg-secondary ${pod.border} ${pod.ring} ring-1 animate-float-y`
                             : "bg-secondary/60 hover:bg-secondary border-primary/10 hover:border-primary/40"
@@ -167,12 +167,39 @@ function TiersPage() {
                             </div>
                           </>
                         )}
-                        {Icon && (
-                          <Icon className={`relative h-3.5 w-3.5 ${pod!.text} ${rank === 1 ? "animate-float-y" : ""} drop-shadow-[0_0_4px_currentColor]`} />
+                        <div className="relative flex items-center gap-2">
+                          {Icon && (
+                            <Icon className={`h-3.5 w-3.5 ${pod!.text} ${rank === 1 ? "animate-float-y" : ""} drop-shadow-[0_0_4px_currentColor]`} />
+                          )}
+                          <img src={skinUrl(p.ign, 64)} alt={p.ign} className={`h-6 w-6 rounded ${pod ? `ring-1 ${pod.ring}` : ""}`} />
+                          <span className={`text-sm font-medium ${p.status === "banned" ? "line-through text-muted-foreground" : ""} ${pod ? pod.text : ""}`}>{p.ign}</span>
+                          <span className="text-xs">{REGION_FLAG[p.region]}</span>
+                          {isOverall && (
+                            <span className="ml-1 text-[10px] font-bold text-muted-foreground tabular-nums">{calcPoints(p)}pt</span>
+                          )}
+                        </div>
+                        {isOverall && p.tiers.length > 0 && (
+                          <div className="relative flex flex-wrap items-center gap-1 pl-1">
+                            {[...p.tiers]
+                              .sort((a, b) => TIER_ORDER.indexOf(a.tier) - TIER_ORDER.indexOf(b.tier))
+                              .map(t => {
+                                const g = GAMEMODES.find(x => x.id === t.gamemodeId);
+                                if (!g) return null;
+                                return (
+                                  <span
+                                    key={t.gamemodeId}
+                                    title={`${g.name}: ${t.tier}`}
+                                    className={`flex items-center gap-1 rounded-md pl-1 pr-1.5 py-0.5 bg-background/40 border border-primary/10 ${t.retired ? "opacity-50" : ""}`}
+                                  >
+                                    <GamemodeIcon gm={g} size={12} />
+                                    <span className={`text-[9px] font-bold tracking-wider px-1 rounded ${TIER_COLOR_CLASS[t.tier]} ${t.retired ? "line-through" : ""}`}>
+                                      {t.tier}
+                                    </span>
+                                  </span>
+                                );
+                              })}
+                          </div>
                         )}
-                        <img src={skinUrl(p.ign, 64)} alt={p.ign} className={`relative h-6 w-6 rounded ${pod ? `ring-1 ${pod.ring}` : ""}`} />
-                        <span className={`relative text-sm font-medium ${p.status === "banned" ? "line-through text-muted-foreground" : ""} ${pod ? pod.text : ""}`}>{p.ign}</span>
-                        <span className="relative text-xs">{REGION_FLAG[p.region]}</span>
                       </Link>
                     );
                   })}
