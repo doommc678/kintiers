@@ -6,7 +6,7 @@ import smpImg from "@/assets/gamemodes/smp.png";
 import nethpotImg from "@/assets/gamemodes/nethpot_t.png";
 import diapotImg from "@/assets/gamemodes/diapot.png";
 import cartImg from "@/assets/gamemodes/cart.png";
-import maceImg from "@/assets/gamemodes/mace.jpg";
+import maceImg from "@/assets/gamemodes/mace.png";
 import spearImg from "@/assets/gamemodes/spear.png";
 
 export type TierKey =
