@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod";
 import { useMemo, useState } from "react";
-import { GAMEMODES, REGIONS, REGION_FLAG, TIER_ORDER, calcPoints, skinUrl, type TierKey, type Player } from "@/lib/tiers";
+import { GAMEMODES, REGIONS, REGION_FLAG, TIER_ORDER, TIER_COLOR_CLASS, calcPoints, skinUrl, type TierKey, type Player } from "@/lib/tiers";
 import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { useAdmin, usePlayers } from "@/lib/store";
 import { TierBadge } from "@/components/TierBadge";
