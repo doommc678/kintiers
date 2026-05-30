@@ -1,12 +1,12 @@
 import swordImg from "@/assets/gamemodes/sword.webp";
-import axeImg from "@/assets/gamemodes/axe.jpeg";
+import axeImg from "@/assets/gamemodes/axe.png";
 import uhcImg from "@/assets/gamemodes/uhc.webp";
 import crystalImg from "@/assets/gamemodes/crystal.gif";
 import smpImg from "@/assets/gamemodes/smp.png";
-import nethpotImg from "@/assets/gamemodes/nethpot.png";
-import diapotImg from "@/assets/gamemodes/diapot.jpeg";
+import nethpotImg from "@/assets/gamemodes/nethpot_t.png";
+import diapotImg from "@/assets/gamemodes/diapot.png";
 import cartImg from "@/assets/gamemodes/cart.png";
-import maceImg from "@/assets/gamemodes/mace.jpg";
+import maceImg from "@/assets/gamemodes/mace.png";
 import spearImg from "@/assets/gamemodes/spear.png";
 
 export type TierKey =
