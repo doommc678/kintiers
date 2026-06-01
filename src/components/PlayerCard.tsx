@@ -38,7 +38,6 @@ const PODIUM = {
 
 export function PlayerCard({ player, rank }: { player: Player; rank?: number }) {
   const banned = player.status === "banned";
-  const retired = player.status === "retired";
   const podium = rank && rank <= 3 ? PODIUM[rank as 1 | 2 | 3] : null;
   const Icon = podium?.icon;
 

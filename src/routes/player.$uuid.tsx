@@ -3,6 +3,8 @@ import { GAMEMODES, REGION_FLAG, bodyUrl, calcPoints } from "@/lib/tiers";
 import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { usePlayers } from "@/lib/store";
 import { TierBadge } from "@/components/TierBadge";
+import { EditionTag, displayIgn } from "@/components/EditionTag";
+import { StatusTag } from "@/components/StatusTag";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/player/$uuid")({
@@ -39,10 +41,10 @@ function PlayerPage() {
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-3 flex-wrap">
-              <h1 className={`text-4xl font-bold ${banned ? "line-through text-muted-foreground" : "gradient-text"}`}>{player.ign}</h1>
+              <h1 className={`text-3xl md:text-4xl font-bold ${banned ? "line-through text-muted-foreground" : "gradient-text"}`}>{displayIgn(player.ign)}</h1>
+              <EditionTag ign={player.ign} size="md" />
               <span className="text-2xl">{REGION_FLAG[player.region]}</span>
-              {player.status === "retired" && <span className="text-xs uppercase tracking-wider text-muted-foreground border border-muted-foreground/40 px-2 py-0.5 rounded">Retired</span>}
-              {banned && <span className="text-xs uppercase tracking-wider text-destructive border border-destructive/60 px-2 py-0.5 rounded">Banned</span>}
+              <StatusTag status={player.status} />
             </div>
             <div className="mt-2 text-sm text-muted-foreground">Region: {player.region} · Added {new Date(player.createdAt).toLocaleDateString()}</div>
 
