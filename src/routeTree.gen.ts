@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TiersRouteImport } from './routes/tiers'
+import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -18,6 +19,11 @@ import { Route as PlayerUuidRouteImport } from './routes/player.$uuid'
 const TiersRoute = TiersRouteImport.update({
   id: '/tiers',
   path: '/tiers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LeaderboardRoute = LeaderboardRouteImport.update({
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/leaderboard': typeof LeaderboardRoute
+  '/partners': typeof PartnersRoute
   '/tiers': typeof TiersRoute
   '/player/$uuid': typeof PlayerUuidRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/leaderboard': typeof LeaderboardRoute
+  '/partners': typeof PartnersRoute
   '/tiers': typeof TiersRoute
   '/player/$uuid': typeof PlayerUuidRoute
 }
@@ -60,21 +68,36 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/leaderboard': typeof LeaderboardRoute
+  '/partners': typeof PartnersRoute
   '/tiers': typeof TiersRoute
   '/player/$uuid': typeof PlayerUuidRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/leaderboard' | '/tiers' | '/player/$uuid'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/leaderboard'
+    | '/partners'
+    | '/tiers'
+    | '/player/$uuid'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/leaderboard' | '/tiers' | '/player/$uuid'
-  id: '__root__' | '/' | '/admin' | '/leaderboard' | '/tiers' | '/player/$uuid'
+  to: '/' | '/admin' | '/leaderboard' | '/partners' | '/tiers' | '/player/$uuid'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/leaderboard'
+    | '/partners'
+    | '/tiers'
+    | '/player/$uuid'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   LeaderboardRoute: typeof LeaderboardRoute
+  PartnersRoute: typeof PartnersRoute
   TiersRoute: typeof TiersRoute
   PlayerUuidRoute: typeof PlayerUuidRoute
 }
@@ -86,6 +109,13 @@ declare module '@tanstack/react-router' {
       path: '/tiers'
       fullPath: '/tiers'
       preLoaderRoute: typeof TiersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partners': {
+      id: '/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof PartnersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/leaderboard': {
@@ -123,9 +153,20 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   LeaderboardRoute: LeaderboardRoute,
+  PartnersRoute: PartnersRoute,
   TiersRoute: TiersRoute,
   PlayerUuidRoute: PlayerUuidRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
