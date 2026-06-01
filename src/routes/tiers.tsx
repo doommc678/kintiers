@@ -5,6 +5,8 @@ import { GAMEMODES, REGIONS, REGION_FLAG, TIER_ORDER, TIER_COLOR_CLASS, calcPoin
 import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { useAdmin, usePlayers } from "@/lib/store";
 import { TierBadge } from "@/components/TierBadge";
+import { EditionTag, displayIgn } from "@/components/EditionTag";
+import { StatusTag } from "@/components/StatusTag";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Crown, Medal, Award } from "lucide-react";
@@ -167,13 +169,15 @@ function TiersPage() {
                             </div>
                           </>
                         )}
-                        <div className="relative flex items-center gap-2">
+                        <div className="relative flex items-center gap-2 flex-wrap">
                           {Icon && (
                             <Icon className={`h-3.5 w-3.5 ${pod!.text} ${rank === 1 ? "animate-float-y" : ""} drop-shadow-[0_0_4px_currentColor]`} />
                           )}
                           <img src={skinUrl(p.ign, 64)} alt={p.ign} className={`h-6 w-6 rounded ${pod ? `ring-1 ${pod.ring}` : ""}`} />
-                          <span className={`text-sm font-medium ${p.status === "banned" ? "line-through text-muted-foreground" : ""} ${pod ? pod.text : ""}`}>{p.ign}</span>
+                          <span className={`text-sm font-medium ${p.status === "banned" ? "line-through text-muted-foreground" : ""} ${pod ? pod.text : ""}`}>{displayIgn(p.ign)}</span>
+                          <EditionTag ign={p.ign} />
                           <span className="text-xs">{REGION_FLAG[p.region]}</span>
+                          <StatusTag status={p.status} />
                           {isOverall && (
                             <span className="ml-1 text-[10px] font-bold text-muted-foreground tabular-nums">{calcPoints(p)}pt</span>
                           )}

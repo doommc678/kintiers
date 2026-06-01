@@ -2,14 +2,15 @@ import { useEffect, useSyncExternalStore } from "react";
 import type { Player, PlayerTier, TierKey, TrialLog, Region, PlayerStatus } from "./tiers";
 import { supabase } from "@/integrations/supabase/client";
 import { adminMutate, listPlayers } from "./players.functions";
+import { verifyAdminPassword, changeAdminPassword } from "./auth.functions";
+import { listPartners, addPartner as addPartnerFn, removePartner as removePartnerFn, type Partner } from "./partners.functions";
 
 const ADMIN_KEY = "kintiers_admin_v1";
 const ADMIN_PW_KEY = "kintiers_admin_pw_v1";
-export const ADMIN_PASSWORD = "1029384756#";
 
-type State = { players: Player[]; loaded: boolean };
+type State = { players: Player[]; loaded: boolean; partners: Partner[]; partnersLoaded: boolean };
 
-let state: State = { players: [], loaded: false };
+let state: State = { players: [], loaded: false, partners: [], partnersLoaded: false };
 const listeners = new Set<() => void>();
 
 function setState(next: Partial<State>) {
@@ -39,11 +40,11 @@ async function init() {
   if (initStarted) return;
   initStarted = true;
   try {
-    const players = await listPlayers();
-    setState({ players, loaded: true });
+    const [players, partners] = await Promise.all([listPlayers(), listPartners()]);
+    setState({ players, loaded: true, partners, partnersLoaded: true });
   } catch (e) {
-    console.error("Failed to load players", e);
-    setState({ loaded: true });
+    console.error("Failed to load data", e);
+    setState({ loaded: true, partnersLoaded: true });
   }
   supabase
     .channel("players-changes")
@@ -63,6 +64,16 @@ async function init() {
       }
     })
     .subscribe();
+
+  supabase
+    .channel("partners-changes")
+    .on("postgres_changes", { event: "*", schema: "public", table: "partners" }, async () => {
+      try {
+        const partners = await listPartners();
+        setState({ partners });
+      } catch {}
+    })
+    .subscribe();
 }
 
 export function usePlayersInit() {
@@ -74,6 +85,9 @@ export function usePlayers(): Player[] {
 }
 export function usePlayersLoaded(): boolean {
   return useSyncExternalStore(subscribe, () => state.loaded, () => false);
+}
+export function usePartners(): Partner[] {
+  return useSyncExternalStore(subscribe, () => state.partners, () => state.partners);
 }
 
 export function getPlayer(uuid: string): Player | undefined {
@@ -88,24 +102,30 @@ function pw(): string {
 export async function addPlayer(input: { ign: string; region: Region; status?: PlayerStatus }) {
   await adminMutate({ data: { password: pw(), action: { type: "add", ...input } } });
 }
-
 export async function removePlayer(uuid: string) {
   await adminMutate({ data: { password: pw(), action: { type: "remove", uuid } } });
 }
-
 export async function updatePlayerStatus(uuid: string, status: PlayerStatus) {
   await adminMutate({ data: { password: pw(), action: { type: "updateStatus", uuid, status } } });
 }
-
 export async function setTier(uuid: string, gamemodeId: string, tier: TierKey, opts?: { tester?: string; evidenceUrl?: string; notes?: string }) {
   await adminMutate({ data: { password: pw(), action: { type: "setTier", uuid, gamemodeId, tier, ...opts } } });
 }
-
 export async function removeTier(uuid: string, gamemodeId: string) {
   await adminMutate({ data: { password: pw(), action: { type: "removeTier", uuid, gamemodeId } } });
 }
 
-// Re-export legacy helpers so admin UI doesn't break
+export async function addPartner(name: string, ip: string) {
+  await addPartnerFn({ data: { password: pw(), name, ip } });
+}
+export async function removePartner(id: string) {
+  await removePartnerFn({ data: { password: pw(), id } });
+}
+export async function changePassword(oldPassword: string, newPassword: string) {
+  await changeAdminPassword({ data: { oldPassword, newPassword } });
+  sessionStorage.setItem(ADMIN_PW_KEY, newPassword);
+}
+
 export function updatePlayer(uuid: string, patch: Partial<Player>) {
   if (patch.status) return updatePlayerStatus(uuid, patch.status);
   return Promise.resolve();
@@ -116,14 +136,17 @@ export function isAdmin(): boolean {
   if (typeof window === "undefined") return false;
   return sessionStorage.getItem(ADMIN_KEY) === "1";
 }
-export function loginAdmin(password: string): boolean {
-  if (password === ADMIN_PASSWORD) {
+export async function loginAdmin(password: string): Promise<boolean> {
+  try {
+    const { ok } = await verifyAdminPassword({ data: { password } });
+    if (!ok) return false;
     sessionStorage.setItem(ADMIN_KEY, "1");
     sessionStorage.setItem(ADMIN_PW_KEY, password);
     listeners.forEach(l => l());
     return true;
+  } catch {
+    return false;
   }
-  return false;
 }
 export function logoutAdmin() {
   sessionStorage.removeItem(ADMIN_KEY);
@@ -131,9 +154,5 @@ export function logoutAdmin() {
   listeners.forEach(l => l());
 }
 export function useAdmin(): boolean {
-  return useSyncExternalStore(
-    subscribe,
-    () => isAdmin(),
-    () => false,
-  );
+  return useSyncExternalStore(subscribe, () => isAdmin(), () => false);
 }

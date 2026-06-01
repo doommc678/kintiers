@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { calcPoints, GAMEMODES, REGION_FLAG, skinUrl, type Player } from "@/lib/tiers";
 import { GamemodeIcon } from "./GamemodeIcon";
 import { TierBadge } from "./TierBadge";
+import { EditionTag, displayIgn } from "./EditionTag";
+import { StatusTag } from "./StatusTag";
 import { Crown, Medal, Award } from "lucide-react";
 
 const PODIUM = {
@@ -36,7 +38,6 @@ const PODIUM = {
 
 export function PlayerCard({ player, rank }: { player: Player; rank?: number }) {
   const banned = player.status === "banned";
-  const retired = player.status === "retired";
   const podium = rank && rank <= 3 ? PODIUM[rank as 1 | 2 | 3] : null;
   const Icon = podium?.icon;
 
@@ -84,18 +85,18 @@ export function PlayerCard({ player, rank }: { player: Player; rank?: number }) 
       </div>
 
       <div className="relative flex-1 min-w-0">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 flex-wrap">
           <span className={`font-semibold truncate ${banned ? "line-through text-muted-foreground" : ""} ${podium ? podium.text : ""}`}>
-            {player.ign}
+            {displayIgn(player.ign)}
           </span>
+          <EditionTag ign={player.ign} />
           <span className="text-base">{REGION_FLAG[player.region]}</span>
           {podium && (
             <span className={`text-[10px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded border ${podium.border} ${podium.text}`}>
               {podium.label}
             </span>
           )}
-          {retired && <span className="text-[10px] uppercase tracking-wider text-muted-foreground border border-muted-foreground/40 px-1.5 rounded">Retired</span>}
-          {banned && <span className="text-[10px] uppercase tracking-wider text-destructive border border-destructive/60 px-1.5 rounded">Banned</span>}
+          <StatusTag status={player.status} />
         </div>
         <div className="mt-1.5 flex flex-wrap gap-1">
           {player.tiers.slice(0, 5).map(t => {

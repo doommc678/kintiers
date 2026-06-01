@@ -1,15 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import type { Player, PlayerStatus, PlayerTier, TierKey, TrialLog, Region } from "./tiers";
-
-const ADMIN_PASSWORD = "1029384756#";
+import { assertAdminPassword } from "./admin.server";
 
 function uid() {
   return Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
-}
-
-function assertAdmin(pw: unknown) {
-  if (pw !== ADMIN_PASSWORD) throw new Error("Unauthorized");
 }
 
 export const listPlayers = createServerFn({ method: "GET" }).handler(async () => {
@@ -43,7 +38,7 @@ type Action =
 export const adminMutate = createServerFn({ method: "POST" })
   .inputValidator((input: { password: string; action: Action }) => input)
   .handler(async ({ data }) => {
-    assertAdmin(data.password);
+    await assertAdminPassword(data.password);
     const a = data.action;
 
     if (a.type === "add") {
