@@ -38,7 +38,7 @@ type Action =
 export const adminMutate = createServerFn({ method: "POST" })
   .inputValidator((input: { password: string; action: Action }) => input)
   .handler(async ({ data }) => {
-    assertAdmin(data.password);
+    await assertAdminPassword(data.password);
     const a = data.action;
 
     if (a.type === "add") {
