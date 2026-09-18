@@ -10,7 +10,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "KinTiers — Minecraft PvP Tier List" },
-      { name: "description", content: "Competitive Minecraft PvP tier rankings across every gamemode — Sword, Crystal, UHC, Spear, SMP, Mace and more. Play on play.blockfun.xyz." },
+      { name: "description", content: "Competitive Minecraft PvP tier rankings across every gamemode — Sword, Crystal, UHC, Spear, SMP, Mace and more. Play on play.blockmc.xyz." },
     ],
   }),
   component: Landing,
