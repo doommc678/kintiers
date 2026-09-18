@@ -24,17 +24,11 @@ export function ServerStatus({ compact = false }: { compact?: boolean }) {
     try {
       const r = await fetch(API_URL, { cache: "no-store" });
       const d = await r.json();
-      // Measure real network latency with a cached follow-up request
-      // (avoids the slow first call where mcsrvstat queries the MC server)
+      // Real latency: TCP handshake to the Minecraft port, measured server-side
       let ping: number | undefined;
       try {
-        const samples: number[] = [];
-        for (let i = 0; i < 2; i++) {
-          const t0 = performance.now();
-          await fetch(API_URL, { cache: "force-cache" });
-          samples.push(performance.now() - t0);
-        }
-        ping = Math.max(1, Math.round(Math.min(...samples)));
+        const res = await pingServer({ data: { host: SERVER_IP } });
+        ping = res?.ping ?? undefined;
       } catch {}
       setStatus({
         online: !!d.online,
