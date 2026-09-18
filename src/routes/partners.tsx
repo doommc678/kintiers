@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { addPartner, removePartner } from "@/lib/store";
 import type { Partner } from "@/lib/partners.functions";
+import { pingServer } from "@/lib/ping.functions";
 
 export const Route = createFileRoute("/partners")({
   head: () => ({
@@ -128,13 +129,8 @@ function PartnerCard({ partner, isAdmin, delay }: { partner: Partner; isAdmin: b
       const d = await r.json();
       let ping: number | undefined;
       try {
-        const samples: number[] = [];
-        for (let i = 0; i < 2; i++) {
-          const t0 = performance.now();
-          await fetch(url, { cache: "force-cache" });
-          samples.push(performance.now() - t0);
-        }
-        ping = Math.max(1, Math.round(Math.min(...samples)));
+        const res = await pingServer({ data: { host: partner.ip } });
+        ping = res?.ping ?? undefined;
       } catch {}
       setStatus({
         online: !!d.online,
