@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Copy, Check, Wifi, WifiOff, Users, Activity } from "lucide-react";
+import { pingServer } from "@/lib/ping.functions";
 
-const SERVER_IP = "play.shulkermc.fun";
+const SERVER_IP = "play.blockfun.xyz";
 const API_URL = `https://api.mcsrvstat.us/3/${SERVER_IP}`;
 
 type Status = {
