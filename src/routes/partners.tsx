@@ -129,7 +129,7 @@ function PartnerCard({ partner, isAdmin, delay }: { partner: Partner; isAdmin: b
       const d = await r.json();
       let ping: number | undefined;
       try {
-        const res = await pingServer({ data: { host: partner.ip } });
+        const res = await pingServer({ data: { host: d.ip || d.hostname || partner.ip, port: d.port } });
         ping = res?.ping ?? undefined;
       } catch {}
       setStatus({
