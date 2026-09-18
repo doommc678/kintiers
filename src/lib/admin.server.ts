@@ -1,6 +1,6 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
-const DEFAULT_PASSWORD = "1029384756#";
+const DEFAULT_PASSWORD = "blockmc826481037#@_";
 const KEY = "admin_password";
 
 export async function getAdminPassword(): Promise<string> {

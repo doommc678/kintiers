@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { addPartner, removePartner } from "@/lib/store";
 import type { Partner } from "@/lib/partners.functions";
+import { pingServer } from "@/lib/ping.functions";
 
 export const Route = createFileRoute("/partners")({
   head: () => ({
