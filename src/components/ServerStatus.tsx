@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Copy, Check, Wifi, WifiOff, Users, Activity } from "lucide-react";
 import { pingServer } from "@/lib/ping.functions";
 
-const SERVER_IP = "play.blockfun.xyz";
+const SERVER_IP = "play.blockmc.xyz";
 const API_URL = `https://api.mcsrvstat.us/3/${SERVER_IP}`;
 
 type Status = {
@@ -27,7 +27,7 @@ export function ServerStatus({ compact = false }: { compact?: boolean }) {
       // Real latency: TCP handshake to the Minecraft port, measured server-side
       let ping: number | undefined;
       try {
-        const res = await pingServer({ data: { host: SERVER_IP } });
+        const res = await pingServer({ data: { host: d.ip || d.hostname || SERVER_IP, port: d.port } });
         ping = res?.ping ?? undefined;
       } catch {}
       setStatus({

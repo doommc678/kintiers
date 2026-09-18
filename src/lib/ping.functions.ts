@@ -6,13 +6,13 @@ import { z } from "zod";
  * handshake to its port (default 25565). Returns null when unreachable.
  */
 export const pingServer = createServerFn({ method: "POST" })
-  .inputValidator((input: { host: string }) =>
-    z.object({ host: z.string().min(1).max(200) }).parse(input)
+  .inputValidator((input: { host: string; port?: number }) =>
+    z.object({ host: z.string().min(1).max(200), port: z.number().int().positive().max(65535).optional() }).parse(input)
   )
   .handler(async ({ data }) => {
     const [rawHost, rawPort] = data.host.split(":");
     const host = rawHost.trim();
-    const port = Number(rawPort) || 25565;
+    const port = data.port ?? Number(rawPort) ?? 25565;
 
     const net = await import("node:net");
 
@@ -26,7 +26,7 @@ export const pingServer = createServerFn({ method: "POST" })
           try { socket.destroy(); } catch { /* noop */ }
           resolve(v);
         };
-        const socket = net.connect({ host, port });
+        const socket = net.connect({ host, port: port || 25565 });
         socket.setTimeout(3000);
         socket.once("connect", () => finish(Date.now() - start));
         socket.once("timeout", () => finish(null));
