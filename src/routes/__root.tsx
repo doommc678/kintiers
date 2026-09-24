@@ -10,6 +10,7 @@ import {
 import appCss from "../styles.css?url";
 import { Navbar } from "@/components/Navbar";
 import { Particles } from "@/components/Particles";
+import { MinecraftVines } from "@/components/MinecraftVines";
 import { usePlayersInit } from "@/lib/store";
 
 function NotFoundComponent() {
@@ -47,14 +48,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "KinTiers — Minecraft PvP Tier List" },
-      { name: "description", content: "Competitive Minecraft PvP tier list across Sword, Crystal, UHC, Pot, SMP and more. Inspired by community tier standards." },
-      { name: "author", content: "KinTiers" },
-      { property: "og:title", content: "KinTiers — Minecraft PvP Tier List" },
+      { title: "BlockTiers — Minecraft PvP Tier List" },
+      { name: "description", content: "Competitive Minecraft PvP tier list across Sword, Crystal, UHC, Spear, SMP and more." },
+      { name: "author", content: "BlockTiers" },
+      { property: "og:title", content: "BlockTiers — Minecraft PvP Tier List" },
       { property: "og:description", content: "Competitive Minecraft PvP tier list across Sword, Crystal, UHC, Pot, SMP and more. Inspired by community tier standards." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "KinTiers — Minecraft PvP Tier List" },
+      { name: "twitter:title", content: "BlockTiers — Minecraft PvP Tier List" },
       { name: "twitter:description", content: "Competitive Minecraft PvP tier list across Sword, Crystal, UHC, Pot, SMP and more. Inspired by community tier standards." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/51c0b588-a00f-4de6-af4a-814e661cfd50" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/51c0b588-a00f-4de6-af4a-814e661cfd50" },
@@ -85,10 +86,11 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Particles />
+      <MinecraftVines />
       <Navbar />
       <Outlet />
       <footer className="mt-20 border-t border-primary/10 py-8 text-center text-xs text-muted-foreground">
-        KinTiers · Not affiliated with Mojang or Microsoft · Community tier rankings
+        BlockTiers · Not affiliated with Mojang or Microsoft · Community tier rankings
       </footer>
     </QueryClientProvider>
   );

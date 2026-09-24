@@ -22,14 +22,14 @@ export function GamemodeIcon({
         height={size}
         loading="lazy"
         style={{ width: size, height: size }}
-        className={`object-contain inline-block select-none pointer-events-none ${className}`}
+        className={`gamemode-icon-pop object-contain inline-block select-none pointer-events-none ${className}`}
       />
     );
   }
   return (
     <span
       style={{ fontSize: size }}
-      className={`inline-block leading-none ${className}`}
+      className={`gamemode-icon-pop inline-block leading-none ${className}`}
       aria-label={gm.name}
     >
       {gm.icon}

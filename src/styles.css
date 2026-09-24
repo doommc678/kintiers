@@ -43,25 +43,25 @@
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.13 0.03 25);
-  --foreground: oklch(0.98 0.005 20);
-  --card: oklch(0.18 0.04 25);
-  --card-foreground: oklch(0.98 0.005 20);
-  --popover: oklch(0.16 0.04 25);
-  --popover-foreground: oklch(0.98 0.005 20);
-  --primary: oklch(0.62 0.24 27);
-  --primary-foreground: oklch(0.98 0.005 20);
-  --secondary: oklch(0.22 0.04 25);
-  --secondary-foreground: oklch(0.98 0.005 20);
-  --muted: oklch(0.22 0.03 25);
-  --muted-foreground: oklch(0.7 0.02 20);
-  --accent: oklch(0.62 0.24 27);
-  --accent-foreground: oklch(0.98 0.005 20);
+  --background: oklch(0.105 0.025 145);
+  --foreground: oklch(0.97 0.025 105);
+  --card: oklch(0.16 0.04 142);
+  --card-foreground: oklch(0.97 0.025 105);
+  --popover: oklch(0.14 0.035 142);
+  --popover-foreground: oklch(0.97 0.025 105);
+  --primary: oklch(0.7 0.19 142);
+  --primary-foreground: oklch(0.13 0.04 142);
+  --secondary: oklch(0.21 0.055 142);
+  --secondary-foreground: oklch(0.97 0.025 105);
+  --muted: oklch(0.2 0.035 142);
+  --muted-foreground: oklch(0.74 0.045 118);
+  --accent: oklch(0.86 0.18 95);
+  --accent-foreground: oklch(0.15 0.035 142);
   --destructive: oklch(0.6 0.25 27);
   --destructive-foreground: oklch(0.98 0.005 20);
-  --border: oklch(0.28 0.05 25 / 60%);
-  --input: oklch(0.22 0.04 25);
-  --ring: oklch(0.62 0.24 27);
+  --border: oklch(0.34 0.08 140 / 65%);
+  --input: oklch(0.2 0.05 142);
+  --ring: oklch(0.81 0.18 103);
 
   /* Tier colors — red/orange spectrum */
   --tier-ht1: oklch(0.65 0.27 25);
@@ -75,11 +75,11 @@
   --tier-ht5: oklch(0.45 0.04 270);
   --tier-lt5: oklch(0.4 0.03 280);
 
-  --gradient-bg: radial-gradient(ellipse at top, oklch(0.22 0.08 25) 0%, oklch(0.08 0.02 25) 60%);
-  --gradient-primary: linear-gradient(135deg, oklch(0.62 0.24 27) 0%, oklch(0.45 0.22 20) 100%);
-  --gradient-card: linear-gradient(135deg, oklch(0.2 0.04 25 / 80%) 0%, oklch(0.14 0.03 25 / 80%) 100%);
-  --glow-red: 0 0 40px oklch(0.62 0.24 27 / 35%);
-  --glow-red-strong: 0 0 60px oklch(0.62 0.24 27 / 60%);
+  --gradient-bg: radial-gradient(ellipse at 72% 0%, oklch(0.27 0.11 130) 0%, oklch(0.12 0.035 145) 42%, oklch(0.075 0.02 150) 100%);
+  --gradient-primary: linear-gradient(135deg, oklch(0.68 0.2 142) 0%, oklch(0.84 0.18 98) 100%);
+  --gradient-card: linear-gradient(135deg, oklch(0.2 0.055 142 / 88%) 0%, oklch(0.12 0.035 150 / 88%) 100%);
+  --glow-red: 0 0 40px oklch(0.72 0.19 135 / 30%);
+  --glow-red-strong: 0 0 60px oklch(0.84 0.18 98 / 45%);
   --shadow-card: 0 10px 30px -10px oklch(0 0 0 / 50%);
 }
 
@@ -108,19 +108,19 @@
     background: var(--gradient-card);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid oklch(0.62 0.24 27 / 15%);
+    border: 1px solid color-mix(in oklab, var(--primary) 18%, transparent);
     box-shadow: var(--shadow-card);
   }
   .glass-hover {
     transition: all 0.3s ease;
   }
   .glass-hover:hover {
-    border-color: oklch(0.62 0.24 27 / 50%);
+    border-color: color-mix(in oklab, var(--accent) 50%, transparent);
     box-shadow: var(--glow-red);
     transform: translateY(-2px);
   }
   .gradient-text {
-    background: linear-gradient(135deg, oklch(0.85 0.15 25), oklch(0.65 0.25 27));
+    background: linear-gradient(120deg, oklch(0.9 0.17 101), oklch(0.71 0.2 142));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -132,7 +132,7 @@
   .glow-red-strong { box-shadow: var(--glow-red-strong); }
 
   .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
-  .scrollbar-thin::-webkit-scrollbar-thumb { background: oklch(0.62 0.24 27 / 50%); border-radius: 3px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: color-mix(in oklab, var(--primary) 50%, transparent); border-radius: 3px; }
   .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
 }
 
@@ -141,8 +141,8 @@
   50% { transform: translate(20px, -30px); opacity: 0.8; }
 }
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px oklch(0.62 0.24 27 / 30%); }
-  50% { box-shadow: 0 0 40px oklch(0.62 0.24 27 / 70%); }
+  0%, 100% { box-shadow: 0 0 20px oklch(0.7 0.19 142 / 25%); }
+  50% { box-shadow: 0 0 42px oklch(0.86 0.18 95 / 55%); }
 }
 @keyframes slide-up {
   from { opacity: 0; transform: translateY(20px); }
@@ -175,4 +175,63 @@
 .animate-gradient-shift { background-size: 200% 200%; animation: gradient-shift 6s ease infinite; }
 .animate-float-y { animation: float-y 4s ease-in-out infinite; }
 .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+
+.gamemode-icon-pop {
+  transform-origin: center bottom;
+  transition: transform 180ms ease, filter 180ms ease;
+}
+.gamemode-tab:hover .gamemode-icon-pop,
+.gamemode-tab:focus-visible .gamemode-icon-pop,
+.gamemode-category:hover .gamemode-icon-pop,
+.gamemode-category:focus-visible .gamemode-icon-pop,
+.gamemode-icon-pop:hover {
+  transform: translateY(-7px) scale(1.28);
+  filter: drop-shadow(0 7px 8px color-mix(in oklab, var(--accent) 45%, transparent));
+}
+
+.minecraft-vines {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 35;
+  width: 9rem;
+  height: 18rem;
+  pointer-events: none;
+  overflow: hidden;
+  filter: drop-shadow(0 4px 6px oklch(0 0 0 / 45%));
+}
+.vine-stem {
+  position: absolute;
+  top: -0.25rem;
+  right: 1.1rem;
+  width: 0.4rem;
+  height: 16rem;
+  background: linear-gradient(90deg, oklch(0.34 0.13 138), oklch(0.56 0.17 133));
+  box-shadow: -0.25rem 0 oklch(0.24 0.1 142);
+  animation: vine-sway 5s ease-in-out infinite;
+  transform-origin: top center;
+}
+.vine-stem-short { right: 5.25rem; height: 8.5rem; animation-delay: -1.8s; }
+.vine-leaf {
+  position: absolute;
+  width: 1.15rem;
+  height: 1.15rem;
+  background: oklch(0.48 0.17 137);
+  box-shadow: 0.55rem 0.35rem 0 oklch(0.35 0.14 140), -0.35rem 0.7rem 0 oklch(0.41 0.15 139);
+}
+.vine-leaf-bright { background: oklch(0.63 0.18 130); }
+@keyframes vine-sway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(2.5deg); }
+}
+
+@media (max-width: 767px) {
+  .minecraft-vines { width: 5rem; height: 11rem; opacity: 0.8; }
+  .vine-stem { right: 0.5rem; height: 9rem; }
+  .vine-stem-short { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .minecraft-vines *, .gamemode-icon-pop { animation: none; transition: none; }
+}
 

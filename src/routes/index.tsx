@@ -9,8 +9,12 @@ import { ServerStatus } from "@/components/ServerStatus";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "KinTiers — Minecraft PvP Tier List" },
+      { title: "BlockTiers — Minecraft PvP Tier List" },
       { name: "description", content: "Competitive Minecraft PvP tier rankings across every gamemode — Sword, Crystal, UHC, Spear, SMP, Mace and more. Play on play.blockmc.xyz." },
+      { property: "og:title", content: "BlockTiers — Minecraft PvP Tier List" },
+      { property: "og:description", content: "Competitive Minecraft PvP rankings across every gamemode." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Landing,
@@ -34,13 +38,13 @@ function Landing() {
             <div className="relative animate-float-y">
               <div className="absolute -inset-2 rounded-2xl gradient-primary blur-2xl opacity-60 animate-pulse-glow" />
               <div className="absolute -inset-4 rounded-3xl border border-primary/30 animate-spin-slow" />
-              <img src={logo} alt="KinTiers" className="relative h-28 w-28 md:h-36 md:w-36 rounded-2xl object-cover ring-4 ring-primary/40" />
+              <img src={logo} alt="BlockTiers" className="relative h-28 w-28 md:h-36 md:w-36 rounded-2xl object-cover ring-4 ring-primary/40" />
             </div>
           </div>
 
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight animate-slide-up">
             <span className="gradient-text animate-gradient-shift bg-[linear-gradient(135deg,oklch(0.85_0.15_25),oklch(0.65_0.25_27),oklch(0.85_0.15_25))] bg-clip-text text-transparent">
-              KinTiers
+              BlockTiers
             </span>
           </h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto animate-slide-up" style={{ animationDelay: "80ms" }}>
@@ -84,7 +88,7 @@ function Landing() {
                 key={gm.id}
                 to="/tiers"
                 search={{ gm: gm.id }}
-                className="glass glass-hover rounded-xl p-5 flex flex-col items-center text-center animate-slide-up"
+                className="gamemode-category glass glass-hover rounded-xl p-5 flex flex-col items-center text-center animate-slide-up"
                 style={{ animationDelay: `${i * 40}ms` }}
               >
                 <div className="mb-2 h-10 w-10 grid place-items-center">

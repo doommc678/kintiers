@@ -9,8 +9,12 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/leaderboard")({
   head: () => ({
     meta: [
-      { title: "Leaderboard — KinTiers" },
+      { title: "Leaderboard — BlockTiers" },
       { name: "description", content: "Top-ranked Minecraft PvP players by total tier points across all gamemodes." },
+      { property: "og:title", content: "Leaderboard — BlockTiers" },
+      { property: "og:description", content: "Top-ranked Minecraft PvP players by total tier points." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Leaderboard,
