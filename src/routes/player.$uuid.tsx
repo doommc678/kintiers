@@ -10,8 +10,12 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/player/$uuid")({
   head: ({ params }) => ({
     meta: [
-      { title: `Player — KinTiers` },
+      { title: `Player — BlockTiers` },
       { name: "description", content: `Tier history and trial log for player ${params.uuid}` },
+      { property: "og:title", content: "Player Profile — BlockTiers" },
+      { property: "og:description", content: "Minecraft PvP tier history and verified trial results." },
+      { property: "og:type", content: "profile" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: PlayerPage,

@@ -34,7 +34,7 @@ export function DiscordButton({ compact = false }: { compact?: boolean }) {
             <div className="mx-auto mb-2 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#5865F2]/15 ring-1 ring-[#5865F2]/40 animate-float-y">
               <DiscordIcon className="h-9 w-9 text-[#5865F2]" />
             </div>
-            <DialogTitle className="text-center text-2xl gradient-text">Join the KinTiers Community</DialogTitle>
+            <DialogTitle className="text-center text-2xl gradient-text">Join the BlockTiers Community</DialogTitle>
             <DialogDescription className="text-center">
               Hang out with other PvPers, request tier trials, get match-ups, and stay updated on rankings.
             </DialogDescription>

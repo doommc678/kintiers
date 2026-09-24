@@ -88,7 +88,7 @@ function Landing() {
                 key={gm.id}
                 to="/tiers"
                 search={{ gm: gm.id }}
-                className="glass glass-hover rounded-xl p-5 flex flex-col items-center text-center animate-slide-up"
+                className="gamemode-category glass glass-hover rounded-xl p-5 flex flex-col items-center text-center animate-slide-up"
                 style={{ animationDelay: `${i * 40}ms` }}
               >
                 <div className="mb-2 h-10 w-10 grid place-items-center">

@@ -15,8 +15,12 @@ import { pingServer } from "@/lib/ping.functions";
 export const Route = createFileRoute("/partners")({
   head: () => ({
     meta: [
-      { title: "Partners — KinTiers" },
-      { name: "description", content: "Partner Minecraft servers featured by the KinTiers community." },
+      { title: "Partners — BlockTiers" },
+      { name: "description", content: "Partner Minecraft servers featured by the BlockTiers community." },
+      { property: "og:title", content: "Partners — BlockTiers" },
+      { property: "og:description", content: "Discover Minecraft servers partnered with the BlockTiers community." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: PartnersPage,
@@ -34,7 +38,7 @@ function PartnersPage() {
           <h1 className="text-3xl md:text-4xl font-bold gradient-text flex items-center gap-3">
             <Server className="h-8 w-8 text-primary" /> Partners
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">Minecraft servers partnered with KinTiers · live status</p>
+          <p className="text-sm text-muted-foreground mt-1">Minecraft servers partnered with BlockTiers · live status</p>
         </div>
         {isAdmin && <CreatePartnerDialog />}
       </div>

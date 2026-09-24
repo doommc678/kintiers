@@ -22,7 +22,15 @@ import {
 } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
-  head: () => ({ meta: [{ title: "Admin — KinTiers" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [
+    { title: "Admin — BlockTiers" },
+    { name: "description", content: "Secure BlockTiers ranking and partner management." },
+    { property: "og:title", content: "Admin — BlockTiers" },
+    { property: "og:description", content: "Secure BlockTiers management area." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+    { name: "robots", content: "noindex" },
+  ] }),
   component: AdminPage,
 });
 
