@@ -19,8 +19,12 @@ export const Route = createFileRoute("/tiers")({
   validateSearch: searchSchema,
   head: () => ({
     meta: [
-      { title: "Tier Lists — KinTiers" },
+      { title: "Tier Lists — BlockTiers" },
       { name: "description", content: "Browse Minecraft PvP tier lists by gamemode. Filter by region, search by IGN." },
+      { property: "og:title", content: "Tier Lists — BlockTiers" },
+      { property: "og:description", content: "Browse Minecraft PvP tier lists by gamemode, region, and player." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: TiersPage,
@@ -90,7 +94,7 @@ function TiersPage() {
             <button
               key={g.id}
               onClick={() => navigate({ search: { gm: g.id } })}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm whitespace-nowrap transition shrink-0 ${
+              className={`gamemode-tab flex items-center gap-2 px-4 py-2 rounded-xl text-sm whitespace-nowrap transition shrink-0 ${
                 g.id === activeGm.id
                   ? "gradient-primary text-primary-foreground glow-red scale-105"
                   : "hover:bg-secondary/60 text-muted-foreground hover:text-foreground"

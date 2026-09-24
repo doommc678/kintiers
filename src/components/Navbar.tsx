@@ -23,9 +23,9 @@ export function Navbar() {
     <header className="sticky top-0 z-40 glass border-b border-primary/20">
       <div className="container mx-auto flex items-center justify-between px-3 sm:px-4 py-3 gap-2">
         <Link to="/" className="flex items-center gap-2 sm:gap-3 group min-w-0" onClick={() => setOpen(false)}>
-          <img src={logo} alt="KinTiers logo" className="h-9 w-9 sm:h-10 sm:w-10 rounded-lg object-cover ring-2 ring-primary/40 group-hover:ring-primary transition shrink-0" />
+          <img src={logo} alt="BlockTiers logo" className="h-9 w-9 sm:h-10 sm:w-10 rounded-lg object-cover ring-2 ring-primary/40 group-hover:ring-primary transition shrink-0" />
           <div className="flex flex-col leading-tight min-w-0">
-            <span className="text-base sm:text-lg font-bold gradient-text tracking-tight truncate">KinTiers</span>
+            <span className="text-base sm:text-lg font-bold gradient-text tracking-tight truncate">BlockTiers</span>
             <span className="hidden sm:block text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Minecraft PvP Tiers</span>
           </div>
         </Link>

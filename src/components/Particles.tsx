@@ -7,7 +7,7 @@ export function Particles() {
         const left = (i * 37) % 100;
         const top = (i * 53) % 100;
         const delay = (i % 8) * 0.7;
-        const isRed = i % 2 === 0;
+        const isGreen = i % 2 === 0;
         return (
           <span
             key={i}
@@ -19,8 +19,8 @@ export function Particles() {
               top: `${top}%`,
               animationDelay: `${delay}s`,
               animationDuration: `${6 + (i % 6)}s`,
-              background: isRed ? "oklch(0.62 0.24 27)" : "oklch(0.7 0.18 35)",
-              boxShadow: `0 0 ${size * 3}px oklch(0.62 0.24 27 / 60%)`,
+              background: isGreen ? "var(--primary)" : "var(--accent)",
+              boxShadow: `0 0 ${size * 3}px color-mix(in oklab, var(--primary) 60%, transparent)`,
             }}
           />
         );
@@ -29,7 +29,7 @@ export function Particles() {
         className="absolute inset-0 opacity-[0.08]"
         style={{
           backgroundImage:
-            "linear-gradient(oklch(0.62 0.24 27) 1px, transparent 1px), linear-gradient(90deg, oklch(0.62 0.24 27) 1px, transparent 1px)",
+            "linear-gradient(color-mix(in oklab, var(--primary) 35%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in oklab, var(--accent) 25%, transparent) 1px, transparent 1px)",
           backgroundSize: "80px 80px",
         }}
       />

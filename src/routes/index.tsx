@@ -9,8 +9,12 @@ import { ServerStatus } from "@/components/ServerStatus";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "KinTiers — Minecraft PvP Tier List" },
+      { title: "BlockTiers — Minecraft PvP Tier List" },
       { name: "description", content: "Competitive Minecraft PvP tier rankings across every gamemode — Sword, Crystal, UHC, Spear, SMP, Mace and more. Play on play.blockmc.xyz." },
+      { property: "og:title", content: "BlockTiers — Minecraft PvP Tier List" },
+      { property: "og:description", content: "Competitive Minecraft PvP rankings across every gamemode." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Landing,
@@ -40,7 +44,7 @@ function Landing() {
 
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight animate-slide-up">
             <span className="gradient-text animate-gradient-shift bg-[linear-gradient(135deg,oklch(0.85_0.15_25),oklch(0.65_0.25_27),oklch(0.85_0.15_25))] bg-clip-text text-transparent">
-              KinTiers
+              BlockTiers
             </span>
           </h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto animate-slide-up" style={{ animationDelay: "80ms" }}>
