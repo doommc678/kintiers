@@ -38,7 +38,7 @@ function Landing() {
             <div className="relative animate-float-y">
               <div className="absolute -inset-2 rounded-2xl gradient-primary blur-2xl opacity-60 animate-pulse-glow" />
               <div className="absolute -inset-4 rounded-3xl border border-primary/30 animate-spin-slow" />
-              <img src={logo} alt="KinTiers" className="relative h-28 w-28 md:h-36 md:w-36 rounded-2xl object-cover ring-4 ring-primary/40" />
+              <img src={logo} alt="BlockTiers" className="relative h-28 w-28 md:h-36 md:w-36 rounded-2xl object-cover ring-4 ring-primary/40" />
             </div>
           </div>
 
